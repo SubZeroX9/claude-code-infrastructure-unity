@@ -34,7 +34,8 @@
           }
         ]
       }
-    ]
+    ],
+    "Stop": []
   },
-  "_comment_stop_hooks": "Unity-specific Stop hooks can be added here. For example: unity-compile-check.sh to validate C# compilation, or unity-test-runner.sh to run Unity tests. The web-specific hooks (tsc-check, trigger-build-resolver) have been removed."
+  "_comment": "Stop hooks explicitly set to empty array to override any global settings. The hooks above require bash (Git Bash, WSL, or Unix). On Windows without bash, you may need to disable hooks or convert them to .bat/.ps1 files."
 }
