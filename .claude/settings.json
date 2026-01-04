@@ -1,9 +1,7 @@
 {
-  "enableAllProjectMcpServers": true,
+  "enableAllProjectMcpServers": false,
   "enabledMcpjsonServers": [
-    "mysql",
-    "sequential-thinking",
-    "playwright"
+    "sequential-thinking"
   ],
   "permissions": {
     "allow": [
@@ -36,20 +34,7 @@
           }
         ]
       }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/tsc-check.sh"
-          },
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/trigger-build-resolver.sh"
-          }
-        ]
-      }
     ]
-  }
+  },
+  "_comment_stop_hooks": "Unity-specific Stop hooks can be added here. For example: unity-compile-check.sh to validate C# compilation, or unity-test-runner.sh to run Unity tests. The web-specific hooks (tsc-check, trigger-build-resolver) have been removed."
 }

@@ -1,6 +1,6 @@
 {
     "version": "1.0",
-    "description": "Skill activation triggers for Claude Code. Controls when skills automatically suggest or block actions.",
+    "description": "Skill activation triggers for Unity 6.3 LTS development. Controls when skills automatically suggest or block actions.",
     "skills": {
         "skill-developer": {
             "type": "domain",
@@ -25,197 +25,164 @@
                 ]
             }
         },
-        "backend-dev-guidelines": {
+        "unity-gameplay-patterns": {
             "type": "domain",
             "enforcement": "suggest",
             "priority": "high",
-            "description": "Backend development patterns for Node.js/Express/TypeScript",
+            "description": "Unity gameplay programming patterns for MonoBehaviour, ScriptableObjects, and game systems",
             "promptTriggers": {
                 "keywords": [
-                    "backend",
-                    "backend development",
-                    "microservice",
-                    "controller",
-                    "service",
-                    "repository",
-                    "route",
-                    "routing",
-                    "express",
-                    "API",
-                    "endpoint",
-                    "middleware",
-                    "validation",
-                    "Zod",
-                    "Prisma",
-                    "database access",
-                    "BaseController",
-                    "dependency injection",
-                    "unifiedConfig",
-                    "configuration"
-                ],
-                "intentPatterns": [
-                    "(create|add|implement|build).*?(route|endpoint|API|controller|service|repository)",
-                    "(fix|handle|debug).*?(error|exception|backend)",
-                    "(add|implement).*?(middleware|validation|error.*?handling)",
-                    "(organize|structure|refactor).*?(backend|service|API)",
-                    "(how to|best practice).*?(backend|route|controller|service)"
-                ]
-            },
-            "fileTriggers": {
-                "pathPatterns": [
-                    "blog-api/src/**/*.ts",
-                    "auth-service/src/**/*.ts",
-                    "notifications-service/src/**/*.ts",
-                    "backend/**/*.ts",
-                    "api/**/*.ts",
-                    "server/**/*.ts",
-                    "services/**/*.ts"
-                ],
-                "pathExclusions": [
-                    "**/*.test.ts",
-                    "**/*.spec.ts"
-                ],
-                "contentPatterns": [
-                    "router\\.",
-                    "app\\.(get|post|put|delete|patch)",
-                    "export.*Controller",
-                    "export.*Service",
-                    "prisma\\."
-                ]
-            }
-        },
-        "frontend-dev-guidelines": {
-            "type": "guardrail",
-            "enforcement": "block",
-            "priority": "high",
-            "description": "React/TypeScript best practices including MUI v7 compatibility",
-            "promptTriggers": {
-                "keywords": [
+                    "MonoBehaviour",
+                    "GameObject",
                     "component",
-                    "react component",
-                    "UI",
-                    "interface",
-                    "page",
-                    "modal",
-                    "dialog",
-                    "form",
-                    "MUI",
-                    "Material-UI",
-                    "Grid",
-                    "styling",
-                    "frontend",
-                    "React"
+                    "coroutine",
+                    "ScriptableObject",
+                    "gameplay",
+                    "game mechanic",
+                    "player controller",
+                    "enemy AI",
+                    "state machine",
+                    "object pool",
+                    "service locator",
+                    "design pattern",
+                    "event system",
+                    "UnityEvent",
+                    "async",
+                    "await",
+                    "Awake",
+                    "Start",
+                    "Update",
+                    "FixedUpdate"
                 ],
                 "intentPatterns": [
-                    "(create|add|make|build|update|modify|edit).*?(component|UI|page|modal|dialog|form)",
-                    "(how to|best practice).*?(component|react|MUI)",
-                    "(style|design|layout).*?(component|UI)"
+                    "(create|add|implement|build).*?(gameplay|mechanic|system|controller)",
+                    "(fix|debug).*?(MonoBehaviour|component|coroutine)",
+                    "(optimize|improve).*?(performance|Update|FixedUpdate)",
+                    "(add|implement).*?(event|observer|pattern)",
+                    "(how to|best practice).*?(MonoBehaviour|ScriptableObject|component)"
                 ]
             },
             "fileTriggers": {
                 "pathPatterns": [
-                    "frontend/src/**/*.tsx",
-                    "frontend/src/**/*.ts",
-                    "client/src/**/*.tsx",
-                    "client/src/**/*.ts",
-                    "src/**/*.tsx"
+                    "Assets/Scripts/**/*.cs",
+                    "Assets/**/Scripts/**/*.cs",
+                    "Assets/_Project/Scripts/**/*.cs",
+                    "Assets/Core/**/*.cs",
+                    "Assets/Gameplay/**/*.cs"
                 ],
                 "pathExclusions": [
-                    "**/*.test.tsx",
-                    "**/*.test.ts",
-                    "**/*.spec.tsx",
-                    "**/*.spec.ts",
-                    "**/*.styles.ts",
-                    "**/vite.config.ts",
-                    "**/tsconfig.json"
+                    "**/Editor/**/*.cs",
+                    "**/*.Editor.cs",
+                    "**/Tests/**/*.cs",
+                    "**/*.Tests.cs"
                 ],
                 "contentPatterns": [
-                    "from '@mui/material';",
-                    "import.*Grid.*from.*@mui",
-                    "<Grid ",
-                    "Grid2",
-                    "Unstable_Grid",
-                    "makeStyles",
-                    "@material-ui/core"
+                    "class.*MonoBehaviour",
+                    "class.*ScriptableObject",
+                    "IEnumerator",
+                    "async.*Task",
+                    "void.*Awake\\(",
+                    "void.*Start\\(",
+                    "void.*Update\\(",
+                    "void.*FixedUpdate\\("
                 ]
-            },
-            "blockMessage": "⚠️ BLOCKED - Frontend Best Practices Required\n\n📋 REQUIRED ACTION:\n1. Use Skill tool: 'frontend-dev-guidelines'\n2. Review MUI v7 patterns (Grid uses size={{}} prop, NOT xs/sm props)\n3. Check React/TypeScript best practices\n4. Use proper styling patterns\n5. Then retry this edit\n\nReason: Enforce MUI v7 compatibility and React best practices\nFile: {file_path}\n\n💡 TIP: Add '// @skip-validation' comment to skip future checks",
-            "skipConditions": {
-                "sessionSkillUsed": true,
-                "fileMarkers": [
-                    "@skip-validation"
-                ],
-                "envOverride": "SKIP_FRONTEND_GUIDELINES"
             }
         },
-        "route-tester": {
+        "unity-ui-guidelines": {
             "type": "domain",
             "enforcement": "suggest",
             "priority": "high",
-            "description": "Testing authenticated API routes with JWT cookie-based auth",
+            "description": "Unity UI development with UI Toolkit and UGUI for Unity 6.3 LTS",
             "promptTriggers": {
                 "keywords": [
-                    "test route",
-                    "test endpoint",
-                    "test API",
-                    "route testing",
-                    "API testing",
-                    "authenticated route",
-                    "JWT testing",
-                    "cookie auth",
-                    "test with auth"
+                    "UI Toolkit",
+                    "UXML",
+                    "USS",
+                    "VisualElement",
+                    "UIDocument",
+                    "UI",
+                    "menu",
+                    "HUD",
+                    "dialog",
+                    "Canvas",
+                    "UGUI",
+                    "RectTransform",
+                    "Button",
+                    "Label",
+                    "TextField",
+                    "Slider",
+                    "UI Builder"
                 ],
                 "intentPatterns": [
-                    "(test|debug|verify).*?(route|endpoint|API)",
-                    "(how to|how do I).*?test.*?(route|endpoint|API)",
-                    "test.*?(authenticated|auth|JWT|cookie)"
+                    "(create|add|make|build).*?(UI|menu|dialog|HUD|interface)",
+                    "(style|design).*?(UI|button|panel)",
+                    "(fix|debug).*?(UI|Canvas|UIDocument)",
+                    "(how to|best practice).*?(UI Toolkit|UXML|USS|Canvas)"
                 ]
             },
             "fileTriggers": {
                 "pathPatterns": [
-                    "**/routes/**/*.ts",
-                    "**/test-*.js",
-                    "**/test-*.ts"
+                    "Assets/**/UI/**/*.cs",
+                    "Assets/**/Menus/**/*.cs",
+                    "Assets/**/*.uxml",
+                    "Assets/**/*.uss",
+                    "Assets/UI/**/*"
                 ],
                 "contentPatterns": [
-                    "router\\.(get|post|put|delete|patch)",
-                    "app\\.(get|post|put|delete|patch)"
+                    "using UnityEngine.UIElements",
+                    "UIDocument",
+                    "VisualElement",
+                    "UXML",
+                    "USS",
+                    "Canvas",
+                    "RectTransform",
+                    "Button.*clicked"
                 ]
             }
         },
-        "error-tracking": {
+        "unity-editor-tools": {
             "type": "domain",
             "enforcement": "suggest",
             "priority": "high",
-            "description": "Sentry error tracking and performance monitoring patterns",
+            "description": "Unity Editor extensions, custom inspectors, and tools",
             "promptTriggers": {
                 "keywords": [
-                    "error handling",
-                    "exception",
-                    "sentry",
-                    "error tracking",
-                    "captureException",
-                    "monitoring",
-                    "performance tracking"
+                    "CustomEditor",
+                    "Editor",
+                    "PropertyDrawer",
+                    "EditorWindow",
+                    "MenuItem",
+                    "custom inspector",
+                    "editor window",
+                    "editor tool",
+                    "Gizmos",
+                    "Handles",
+                    "ScriptedImporter",
+                    "AssetPostprocessor",
+                    "BuildPlayer"
                 ],
                 "intentPatterns": [
-                    "(add|create|implement|setup).*?(error handling|sentry|error tracking)",
-                    "(fix|handle|catch).*?(error|exception)",
-                    "(how to|best practice).*?(error|sentry|monitoring)"
+                    "(create|add|build).*?(editor|inspector|tool|window)",
+                    "(customize|extend).*?(editor|inspector|import)",
+                    "(draw|visualize).*?(Gizmo|Handle|scene)",
+                    "(how to|best practice).*?(editor|CustomEditor|PropertyDrawer)"
                 ]
             },
             "fileTriggers": {
                 "pathPatterns": [
-                    "**/instrument.ts",
-                    "**/sentry*.ts",
-                    "**/*Controller.ts",
-                    "**/*Service.ts"
+                    "Assets/**/Editor/**/*.cs",
+                    "Assets/**/*.Editor.cs",
+                    "Editor/**/*.cs"
                 ],
                 "contentPatterns": [
-                    "@sentry",
-                    "Sentry\\.",
-                    "captureException",
-                    "captureMessage"
+                    "\\[CustomEditor\\(",
+                    "\\[CustomPropertyDrawer\\(",
+                    "EditorWindow",
+                    "\\[MenuItem\\(",
+                    "OnInspectorGUI",
+                    "OnSceneGUI",
+                    "DrawGizmo",
+                    "using UnityEditor"
                 ]
             }
         }
@@ -233,9 +200,10 @@
             "low": "Optional - Trigger only for explicit matches"
         },
         "customization": {
-            "pathPatterns": "Adjust to match your project structure (blog-api, auth-service, etc.)",
-            "keywords": "Add domain-specific terms relevant to your project",
-            "intentPatterns": "Use regex for flexible user intent matching"
+            "pathPatterns": "Adjust to match your Unity project structure (Assets/Scripts, Assets/_Project, etc.)",
+            "keywords": "Add project-specific terms (custom systems, naming conventions)",
+            "intentPatterns": "Use regex for flexible user intent matching",
+            "contentPatterns": "Match Unity-specific code patterns (MonoBehaviour, CustomEditor, etc.)"
         }
     }
 }
