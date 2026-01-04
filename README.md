@@ -1,63 +1,63 @@
-# Claude Code Infrastructure Showcase
+# Claude Code Unity 6.3 LTS Toolkit
 
-**A curated reference library of production-tested Claude Code infrastructure.**
+**Production-tested Claude Code infrastructure for Unity game development.**
 
-Born from 6 months of real-world use managing a complex TypeScript microservices project, this showcase provides the patterns and systems that solved the "skills don't activate automatically" problem and scaled Claude Code for enterprise development.
+Transformed from a web development showcase to a comprehensive Unity 6.3 LTS toolkit, this repository provides skills, agents, and automation patterns specifically designed for Unity developers using Claude Code.
 
-> **This is NOT a working application** - it's a reference library. Copy what you need into your own projects.
+> **This is a reference library** - Copy what you need into your Unity projects.
 
 ---
 
 ## What's Inside
 
-**Production-tested infrastructure for:**
-- ✅ **Auto-activating skills** via hooks
+**Unity-focused infrastructure for:**
+- ✅ **Auto-activating skills** for Unity development
+- ✅ **Gameplay programming patterns** (MonoBehaviour, ScriptableObjects, design patterns)
+- ✅ **UI Toolkit development** (UXML, USS, modern Unity UI)
+- ✅ **Editor extensions** (Custom Inspectors, Property Drawers, Tools)
+- ✅ **Specialized agents** for Unity-specific tasks
 - ✅ **Modular skill pattern** (500-line rule with progressive disclosure)
-- ✅ **Specialized agents** for complex tasks
-- ✅ **Dev docs system** that survives context resets
-- ✅ **Comprehensive examples** using generic blog domain
 
-**Time investment to build:** 6 months of iteration
-**Time to integrate into your project:** 15-30 minutes
+**Unity Version:** 6.3 LTS
+**Language:** C# 9.0+
 
 ---
 
-## Quick Start - Pick Your Path
+## Quick Start
 
 ### 🤖 Using Claude Code to Integrate?
 
-**Claude:** Read [`CLAUDE_INTEGRATION_GUIDE.md`](CLAUDE_INTEGRATION_GUIDE.md) for step-by-step integration instructions tailored for AI-assisted setup.
+**Claude:** Read [`CLAUDE_INTEGRATION_GUIDE.md`](CLAUDE_INTEGRATION_GUIDE.md) for step-by-step integration instructions tailored for Unity projects.
 
-### 🎯 I want skill auto-activation
+### 🎯 I want skill auto-activation for Unity
 
-**The breakthrough feature:** Skills that actually activate when you need them.
+**The breakthrough feature:** Skills that actually activate when working on Unity code.
 
 **What you need:**
 1. The skill-activation hooks (2 files)
-2. A skill or two relevant to your work
+2. Unity-specific skills
 3. 15 minutes
 
 **👉 [Setup Guide: .claude/hooks/README.md](.claude/hooks/README.md)**
 
-### 📚 I want to add ONE skill
+### 📚 I want to add ONE Unity skill
 
 Browse the [skills catalog](.claude/skills/) and copy what you need.
 
-**Available:**
-- **backend-dev-guidelines** - Node.js/Express/TypeScript patterns
-- **frontend-dev-guidelines** - React/TypeScript/MUI v7 patterns
-- **skill-developer** - Meta-skill for creating skills
-- **route-tester** - Test authenticated API routes
-- **error-tracking** - Sentry integration patterns
+**Available Unity Skills:**
+- **unity-gameplay-patterns** - MonoBehaviour lifecycle, design patterns, ScriptableObjects
+- **unity-ui-guidelines** - UI Toolkit (modern), UGUI reference
+- **unity-editor-tools** - Custom Inspectors, PropertyDrawers, EditorWindows
+- **skill-developer** - Meta-skill for creating your own skills
 
 **👉 [Skills Guide: .claude/skills/README.md](.claude/skills/README.md)**
 
 ### 🤖 I want specialized agents
 
-10 production-tested agents for complex tasks:
-- Code architecture review
-- Refactoring assistance
-- Documentation generation
+Production-tested agents for Unity development:
+- Code architecture review (Unity-specific)
+- Refactoring assistance (C#/Unity)
+- Documentation generation (XML docs)
 - Error debugging
 - And more...
 
@@ -67,28 +67,27 @@ Browse the [skills catalog](.claude/skills/) and copy what you need.
 
 ## What Makes This Different?
 
+### Unity 6.3 LTS Focused
+
+**Built specifically for Unity 6.3 LTS:**
+- ✅ UI Toolkit (modern Unity UI system)
+- ✅ C# 9.0+ language features
+- ✅ MonoBehaviour best practices
+- ✅ Assembly Definitions organization
+- ✅ ScriptableObject patterns
+- ✅ Editor scripting with UI Toolkit
+
 ### The Auto-Activation Breakthrough
 
 **Problem:** Claude Code skills just sit there. You have to remember to use them.
 
 **Solution:** UserPromptSubmit hook that:
-- Analyzes your prompts
-- Checks file context
-- Automatically suggests relevant skills
+- Analyzes your prompts for Unity keywords
+- Checks file context (.cs, .uxml, .uss)
+- Automatically suggests relevant Unity skills
 - Works via `skill-rules.json` configuration
 
 **Result:** Skills activate when you need them, not when you remember them.
-
-### Production-Tested Patterns
-
-These aren't theoretical examples - they're extracted from:
-- ✅ 6 microservices in production
-- ✅ 50,000+ lines of TypeScript
-- ✅ React frontend with complex data grids
-- ✅ Sophisticated workflow engine
-- ✅ 6 months of daily Claude Code use
-
-The patterns work because they solved real problems.
 
 ### Modular Skills (500-Line Rule)
 
@@ -111,91 +110,65 @@ skill-name/
 
 ```
 .claude/
-├── skills/                 # 5 production skills
-│   ├── backend-dev-guidelines/  (12 resource files)
-│   ├── frontend-dev-guidelines/ (11 resource files)
-│   ├── skill-developer/         (7 resource files)
-│   ├── route-tester/
-│   ├── error-tracking/
-│   └── skill-rules.json    # Skill activation configuration
-├── hooks/                  # 6 hooks for automation
+├── skills/                 # 4 Unity skills
+│   ├── unity-gameplay-patterns/  (8 resource files)
+│   ├── unity-ui-guidelines/      (8 resource files)
+│   ├── unity-editor-tools/       (8 resource files)
+│   ├── skill-developer/          (7 resource files)
+│   └── skill-rules.json    # Unity-specific activation rules
+├── hooks/                  # 2 essential hooks
 │   ├── skill-activation-prompt.*  (ESSENTIAL)
-│   ├── post-tool-use-tracker.sh   (ESSENTIAL)
-│   ├── tsc-check.sh        (optional, needs customization)
-│   └── trigger-build-resolver.sh  (optional)
-├── agents/                 # 10 specialized agents
+│   └── post-tool-use-tracker.sh   (ESSENTIAL)
+├── agents/                 # Specialized Unity agents
 │   ├── code-architecture-reviewer.md
 │   ├── refactor-planner.md
-│   ├── frontend-error-fixer.md
-│   └── ... 7 more
-└── commands/               # 3 slash commands
-    ├── dev-docs.md
-    └── ...
-
-dev/
-└── active/                 # Dev docs pattern examples
-    └── public-infrastructure-repo/
+│   └── ... more agents
+└── commands/               # Slash commands
+    └── dev-docs.md
 ```
 
 ---
 
 ## Component Catalog
 
-### 🎨 Skills (5)
+### 🎮 Unity Skills (4)
 
-| Skill | Lines | Purpose | Best For |
-|-------|-------|---------|----------|
-| [**skill-developer**](.claude/skills/skill-developer/) | 426 | Creating and managing skills | Meta-development |
-| [**backend-dev-guidelines**](.claude/skills/backend-dev-guidelines/) | 304 | Express/Prisma/Sentry patterns | Backend APIs |
-| [**frontend-dev-guidelines**](.claude/skills/frontend-dev-guidelines/) | 398 | React/MUI v7/TypeScript | React frontends |
-| [**route-tester**](.claude/skills/route-tester/) | 389 | Testing authenticated routes | API testing |
-| [**error-tracking**](.claude/skills/error-tracking/) | ~250 | Sentry integration | Error monitoring |
+| Skill | Focus | Best For |
+|-------|-------|----------|
+| [**unity-gameplay-patterns**](.claude/skills/unity-gameplay-patterns/) | MonoBehaviour, ScriptableObjects, Patterns | Core gameplay programming |
+| [**unity-ui-guidelines**](.claude/skills/unity-ui-guidelines/) | UI Toolkit, UXML, USS | Modern Unity UI |
+| [**unity-editor-tools**](.claude/skills/unity-editor-tools/) | CustomEditor, PropertyDrawer | Editor extensions |
+| [**skill-developer**](.claude/skills/skill-developer/) | Meta-skill | Creating custom skills |
 
 **All skills follow the modular pattern** - main file + resource files for progressive disclosure.
 
 **👉 [How to integrate skills →](.claude/skills/README.md)**
 
-### 🪝 Hooks (6)
+### 🪝 Hooks (2 Essential)
 
-| Hook | Type | Essential? | Customization |
-|------|------|-----------|---------------|
-| skill-activation-prompt | UserPromptSubmit | ✅ YES | ✅ None needed |
-| post-tool-use-tracker | PostToolUse | ✅ YES | ✅ None needed |
-| tsc-check | Stop | ⚠️ Optional | ⚠️ Heavy - monorepo only |
-| trigger-build-resolver | Stop | ⚠️ Optional | ⚠️ Heavy - monorepo only |
-| error-handling-reminder | Stop | ⚠️ Optional | ⚠️ Moderate |
-| stop-build-check-enhanced | Stop | ⚠️ Optional | ⚠️ Moderate |
+| Hook | Type | Essential? |
+|------|------|-----------|
+| skill-activation-prompt | UserPromptSubmit | ✅ YES |
+| post-tool-use-tracker | PostToolUse | ✅ YES |
 
 **Start with the two essential hooks** - they enable skill auto-activation and work out of the box.
 
 **👉 [Hook setup guide →](.claude/hooks/README.md)**
 
-### 🤖 Agents (10)
+### 🤖 Agents
 
 **Standalone - just copy and use!**
 
 | Agent | Purpose |
 |-------|---------|
-| code-architecture-reviewer | Review code for architectural consistency |
-| code-refactor-master | Plan and execute refactoring |
+| code-architecture-reviewer | Review Unity code for best practices |
+| code-refactor-master | Plan and execute C# refactoring |
 | documentation-architect | Generate comprehensive documentation |
-| frontend-error-fixer | Debug frontend errors |
 | plan-reviewer | Review development plans |
 | refactor-planner | Create refactoring strategies |
-| web-research-specialist | Research technical issues online |
-| auth-route-tester | Test authenticated endpoints |
-| auth-route-debugger | Debug auth issues |
-| auto-error-resolver | Auto-fix TypeScript errors |
+| web-research-specialist | Research Unity issues online |
 
 **👉 [How agents work →](.claude/agents/README.md)**
-
-### 💬 Slash Commands (3)
-
-| Command | Purpose |
-|---------|---------|
-| /dev-docs | Create structured dev documentation |
-| /dev-docs-update | Update docs before context reset |
-| /route-research-for-testing | Research route patterns for testing |
 
 ---
 
@@ -205,11 +178,14 @@ dev/
 
 **The system:**
 1. **skill-activation-prompt hook** runs on every user prompt
-2. Checks **skill-rules.json** for trigger patterns
+2. Checks **skill-rules.json** for Unity trigger patterns
 3. Suggests relevant skills automatically
 4. Skills load only when needed
 
-**This solves the #1 problem** with Claude Code skills: they don't activate on their own.
+**Unity-specific triggers:**
+- Keywords: MonoBehaviour, ScriptableObject, UI Toolkit, CustomEditor
+- File patterns: `Assets/**/*.cs`, `Assets/**/*.uxml`, `Assets/**/Editor/**/*.cs`
+- Content patterns: `class.*MonoBehaviour`, `using UnityEngine.UIElements`
 
 ### Progressive Disclosure (500-Line Rule)
 
@@ -220,44 +196,32 @@ dev/
 - Resource files <500 lines each (deep dives)
 - Claude loads incrementally as needed
 
-**Example:** backend-dev-guidelines has 12 resource files covering routing, controllers, services, repositories, testing, etc.
-
-### Dev Docs Pattern
-
-**Problem:** Context resets lose project context
-
-**Solution:** Three-file structure
-- `[task]-plan.md` - Strategic plan
-- `[task]-context.md` - Key decisions and files
-- `[task]-tasks.md` - Checklist format
-
-**Works with:** `/dev-docs` slash command to generate these automatically
+**Example:** unity-gameplay-patterns has 8 resource files covering lifecycle, patterns, ScriptableObjects, performance, etc.
 
 ---
 
 ## ⚠️ Important: What Won't Work As-Is
 
 ### settings.json
-The included `settings.json` is an **example only**:
-- Stop hooks reference specific monorepo structure
-- Service names (blog-api, etc.) are examples
-- MCP servers may not exist in your setup
+The included `settings.json` is streamlined for Unity:
+- Removed web-specific MCP servers (mysql, playwright)
+- Removed TypeScript-specific hooks (tsc-check)
+- Kept essential hooks (UserPromptSubmit, PostToolUse)
 
 **To use it:**
-1. Extract ONLY UserPromptSubmit and PostToolUse hooks
-2. Customize or skip Stop hooks
+1. Copy UserPromptSubmit and PostToolUse hooks
+2. Optionally add Unity-specific Stop hooks
 3. Update MCP server list for your setup
 
-### Blog Domain Examples
-Skills use generic blog examples (Post/Comment/User):
-- These are **teaching examples**, not requirements
-- Patterns work for any domain (e-commerce, SaaS, etc.)
-- Adapt the patterns to your business logic
+### Unity Project Structure
+Skills assume common Unity folder structures:
+- `Assets/Scripts/` - Gameplay code
+- `Assets/UI/` - UI files
+- `Assets/Editor/` - Editor extensions
 
-### Hook Directory Structures
-Some hooks expect specific structures:
-- `tsc-check.sh` expects service directories
-- Customize based on YOUR project layout
+**Customize:**
+- Update pathPatterns in skill-rules.json for your structure
+- Examples: `Assets/_Project/Scripts/`, `Assets/Core/`, etc.
 
 ---
 
@@ -269,23 +233,23 @@ Some hooks expect specific structures:
 1. Copy skill-activation-prompt hook
 2. Copy post-tool-use-tracker hook
 3. Update settings.json
-4. Install hook dependencies
+4. Install hook dependencies (Node.js for TypeScript hooks)
 
 ### Phase 2: Add First Skill (10 min)
-1. Pick ONE relevant skill
-2. Copy skill directory
-3. Create/update skill-rules.json
-4. Customize path patterns
+1. Pick ONE relevant skill (start with unity-gameplay-patterns)
+2. Copy skill directory to your project
+3. Skill-rules.json already configured
+4. Test with Unity C# file
 
 ### Phase 3: Test & Iterate (5 min)
-1. Edit a file - skill should activate
-2. Ask a question - skill should be suggested
+1. Edit a MonoBehaviour script - skill should activate
+2. Ask "how do I create a ScriptableObject?" - skill should suggest
 3. Add more skills as needed
 
 ### Phase 4: Optional Enhancements
 - Add agents you find useful
-- Add slash commands
-- Customize Stop hooks (advanced)
+- Customize skill-rules.json path patterns
+- Add Unity-specific Stop hooks (compilation checks, tests)
 
 ---
 
@@ -294,14 +258,14 @@ Some hooks expect specific structures:
 ### For Users
 **Issues with integration?**
 1. Check [CLAUDE_INTEGRATION_GUIDE.md](CLAUDE_INTEGRATION_GUIDE.md)
-2. Ask Claude: "Why isn't [skill] activating?"
-3. Open an issue with your project structure
+2. Ask Claude: "Why isn't [skill] activating in my Unity project?"
+3. Open an issue with your Unity project structure
 
 ### For Claude Code
 When helping users integrate:
 1. **Read CLAUDE_INTEGRATION_GUIDE.md FIRST**
-2. Ask about their project structure
-3. Customize, don't blindly copy
+2. Ask about their Unity project structure
+3. Customize pathPatterns in skill-rules.json
 4. Verify after integration
 
 ---
@@ -310,21 +274,21 @@ When helping users integrate:
 
 ### Before This Infrastructure
 
-❌ Skills don't activate automatically
-❌ Have to remember which skill to use
-❌ Large skills hit context limits
-❌ Context resets lose project knowledge
-❌ No consistency across development
-❌ Manual agent invocation every time
+❌ Skills don't activate for Unity code
+❌ Have to remember Unity-specific patterns
+❌ No Unity 6 UI Toolkit guidance
+❌ Manual MonoBehaviour lifecycle lookups
+❌ Searching for C# design patterns
+❌ Editor scripting trial and error
 
 ### After This Infrastructure
 
-✅ Skills suggest themselves based on context
-✅ Hooks trigger skills at the right time
-✅ Modular skills stay under context limits
-✅ Dev docs preserve knowledge across resets
-✅ Consistent patterns via guardrails
-✅ Agents streamline complex tasks
+✅ Skills suggest themselves for Unity code
+✅ MonoBehaviour best practices at your fingertips
+✅ UI Toolkit patterns and examples ready
+✅ ScriptableObject architecture guidance
+✅ Custom Inspector templates
+✅ Consistent Unity 6.3 LTS patterns
 
 ---
 
@@ -333,28 +297,32 @@ When helping users integrate:
 **Found this useful?**
 
 - ⭐ Star this repo
-- 🐛 Report issues or suggest improvements
-- 💬 Share your own skills/hooks/agents
-- 📝 Contribute examples from your domain
+- 🐛 Report Unity-specific issues
+- 💬 Share your own Unity skills/agents
+- 📝 Contribute Unity examples
 
-**Background:**
-This infrastructure was detailed in a post I made to Reddit ["Claude Code is a Beast – Tips from 6 Months of Hardcore Use"](https://www.reddit.com/r/ClaudeAI/comments/1oivjvm/claude_code_is_a_beast_tips_from_6_months_of/). After hundreds of requests, this showcase was created to help the community implement these patterns.
-
+**History:**
+Originally a web development infrastructure showcase, transformed into a Unity 6.3 LTS toolkit based on community needs for game development workflows.
 
 ---
 
 ## License
 
-MIT License - Use freely in your projects, commercial or personal.
+MIT License - Use freely in your Unity projects, commercial or personal.
 
 ---
 
 ## Quick Links
 
 - 📖 [Claude Integration Guide](CLAUDE_INTEGRATION_GUIDE.md) - For AI-assisted setup
-- 🎨 [Skills Documentation](.claude/skills/README.md)
+- 🎮 [Unity Skills Documentation](.claude/skills/README.md)
 - 🪝 [Hooks Setup](.claude/hooks/README.md)
 - 🤖 [Agents Guide](.claude/agents/README.md)
-- 📝 [Dev Docs Pattern](dev/README.md)
 
-**Start here:** Copy the two essential hooks, add one skill, and see the auto-activation magic happen.
+**Start here:** Copy the two essential hooks, add unity-gameplay-patterns skill, and experience auto-activation for Unity development.
+
+---
+
+**Unity Version:** 6.3 LTS
+**C# Version:** 9.0+
+**Last Updated:** 2025-01-04
