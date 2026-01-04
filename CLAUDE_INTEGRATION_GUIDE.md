@@ -1,89 +1,46 @@
-# Claude Integration Guide
+# Claude Integration Guide for Unity Projects
 
-**FOR CLAUDE CODE:** When a user asks you to integrate components from this showcase repository into their project, follow these instructions carefully.
+**FOR CLAUDE CODE:** When a user asks you to integrate components from this Unity toolkit into their project, follow these instructions carefully.
 
 ---
 
 ## Overview
 
-This repository is a **reference library** of Claude Code infrastructure components. Users will ask you to help integrate specific pieces into their projects. Your role is to:
+This repository is a **reference library** of Claude Code infrastructure components for Unity 6.3 LTS development. Users will ask you to help integrate specific pieces into their Unity projects. Your role is to:
 
-1. **Ask clarifying questions** about their project structure
+1. **Ask clarifying questions** about their Unity project structure
 2. **Copy the appropriate files**
-3. **Customize configurations** for their setup
+3. **Customize configurations** for their Unity setup
 4. **Verify the integration** works correctly
 
-**Key Principle:** ALWAYS ask before assuming project structure. What works for one project won't work for another.
+**Key Principle:** ALWAYS ask before assuming project structure. What works for one Unity project won't work for another.
 
 ---
 
-## Tech Stack Compatibility Check
+## Unity 6.3 LTS Focus
 
-**CRITICAL:** Before integrating a skill, verify the user's tech stack matches the skill requirements.
+**This toolkit is specifically designed for:**
+- Unity 6.3 LTS (Long Term Support)
+- C# 9.0+
+- UI Toolkit (modern Unity UI system)
+- MonoBehaviour-based gameplay programming
+- ScriptableObject data-driven design
+- Unity Editor extensions
 
-### Frontend Skills
-
-**frontend-dev-guidelines requires:**
-- React (18+)
-- MUI v7
-- TanStack Query
-- TanStack Router
-- TypeScript
-
-**Before integrating, ask:**
-"Do you use React with MUI v7?"
-
-**If NO:**
-```
-The frontend-dev-guidelines skill is designed specifically for React + MUI v7. I can:
-1. Help you create a similar skill adapted for [their stack] using this as a template
-2. Extract the framework-agnostic patterns (file organization, performance, etc.)
-3. Skip this skill if not relevant
-
-Which would you prefer?
-```
-
-### Backend Skills
-
-**backend-dev-guidelines requires:**
-- Node.js/Express
-- TypeScript
-- Prisma ORM
-- Sentry
-
-**Before integrating, ask:**
-"Do you use Node.js with Express and Prisma?"
-
-**If NO:**
-```
-The backend-dev-guidelines skill is designed for Express/Prisma. I can:
-1. Help you create similar guidelines adapted for [their stack] using this as a template
-2. Extract the architecture patterns (layered architecture works for any framework)
-3. Skip this skill
-
-Which would you prefer?
-```
-
-### Skills That Are Tech-Agnostic
-
-These work for ANY tech stack:
-- ✅ **skill-developer** - Meta-skill, no tech requirements
-- ✅ **route-tester** - Only requires JWT cookie auth (framework agnostic)
-- ✅ **error-tracking** - Sentry works with most stacks
+**Verify compatibility** when integrating into user projects.
 
 ---
 
 ## General Integration Pattern
 
-When user says: **"Add [component] to my project"**
+When user says: **"Add [component] to my Unity project"**
 
 1. Identify component type (skill/hook/agent/command)
-2. **CHECK TECH STACK COMPATIBILITY** (for frontend/backend skills)
-3. Ask about their project structure
-4. Copy files OR adapt for their stack
-5. Customize for their setup
-6. Verify integration
-7. Provide next steps
+2. Ask about their Unity project structure
+3. Copy files
+4. Customize for their Unity setup
+5. Verify integration
+6. Provide next steps
 
 ---
 
@@ -91,19 +48,44 @@ When user says: **"Add [component] to my project"**
 
 ### Step-by-Step Process
 
-**When user requests a skill** (e.g., "add backend-dev-guidelines"):
+**When user requests a Unity skill** (e.g., "add unity-gameplay-patterns"):
 
-#### 1. Understand Their Project
+#### 1. Understand Their Unity Project
 
 **ASK THESE QUESTIONS:**
-- "What's your project structure? Single app, monorepo, or multi-service?"
-- "Where is your [backend/frontend] code located?"
-- "What frameworks/technologies do you use?"
+- "What's your Unity project structure? Standard Assets/ layout or custom organization?"
+- "Where is your gameplay code located? (e.g., Assets/Scripts/, Assets/_Project/Scripts/)"
+- "Do you have separate folders for UI, Editor, or other systems?"
+
+**Common Unity structures:**
+```
+Standard:
+Assets/
+├── Scripts/
+├── Prefabs/
+├── Scenes/
+└── Editor/
+
+Custom:
+Assets/
+├── _Project/
+│   ├── Scripts/
+│   ├── UI/
+│   └── Editor/
+└── Plugins/
+
+Modular:
+Assets/
+├── Core/
+├── Gameplay/
+├── UI/
+└── Editor/
+```
 
 #### 2. Copy the Skill
 
 ```bash
-cp -r /path/to/showcase/.claude/skills/[skill-name] \\
+cp -r /path/to/unity-toolkit/.claude/skills/[skill-name] \
       $CLAUDE_PROJECT_DIR/.claude/skills/
 ```
 
@@ -115,42 +97,61 @@ ls $CLAUDE_PROJECT_DIR/.claude/skills/skill-rules.json
 ```
 
 **If NO (doesn't exist):**
-- Copy the template from showcase
-- Remove skills user doesn't want
-- Customize for their project
+- Copy the template from unity-toolkit
+- Customize pathPatterns for their Unity structure
 
 **If YES (exists):**
 - Read their current skill-rules.json
 - Add the new skill entry
 - Merge carefully to avoid breaking existing skills
 
-#### 4. Customize Path Patterns
+#### 4. Customize Path Patterns for Unity
 
-**CRITICAL:** Update `pathPatterns` in skill-rules.json to match THEIR structure:
+**CRITICAL:** Update `pathPatterns` in skill-rules.json to match THEIR Unity Assets structure:
 
-**Example - User has monorepo:**
+**Example - Standard Unity structure:**
 ```json
 {
-  "backend-dev-guidelines": {
+  "unity-gameplay-patterns": {
     "fileTriggers": {
       "pathPatterns": [
-        "packages/api/src/**/*.ts",
-        "packages/server/src/**/*.ts",
-        "apps/backend/**/*.ts"
+        "Assets/Scripts/**/*.cs"
+      ],
+      "pathExclusions": [
+        "Assets/Scripts/Editor/**/*.cs"
       ]
     }
   }
 }
 ```
 
-**Example - User has single backend:**
+**Example - Custom _Project structure:**
 ```json
 {
-  "backend-dev-guidelines": {
+  "unity-gameplay-patterns": {
     "fileTriggers": {
       "pathPatterns": [
-        "src/**/*.ts",
-        "backend/**/*.ts"
+        "Assets/_Project/Scripts/**/*.cs",
+        "Assets/_Project/Gameplay/**/*.cs"
+      ]
+    }
+  }
+}
+```
+
+**Example - Modular structure:**
+```json
+{
+  "unity-gameplay-patterns": {
+    "fileTriggers": {
+      "pathPatterns": [
+        "Assets/Core/**/*.cs",
+        "Assets/Gameplay/**/*.cs",
+        "Assets/Systems/**/*.cs"
+      ],
+      "pathExclusions": [
+        "**/Editor/**/*.cs",
+        "**/Tests/**/*.cs"
       ]
     }
   }
@@ -161,9 +162,12 @@ ls $CLAUDE_PROJECT_DIR/.claude/skills/skill-rules.json
 ```json
 {
   "pathPatterns": [
-    "**/*.ts",          // All TypeScript files
-    "src/**/*.ts",      // Common src directory
-    "backend/**/*.ts"   // Common backend directory
+    "Assets/**/*.cs"  // All C# in Assets
+  ],
+  "pathExclusions": [
+    "Assets/**/Editor/**/*.cs",  // Exclude Editor scripts
+    "Assets/Plugins/**/*.cs",    // Exclude third-party
+    "Assets/**/*.Tests.cs"       // Exclude tests
   ]
 }
 ```
@@ -178,171 +182,36 @@ ls -la $CLAUDE_PROJECT_DIR/.claude/skills/[skill-name]
 cat $CLAUDE_PROJECT_DIR/.claude/skills/skill-rules.json | jq .
 ```
 
-**Tell user:** "Try editing a file in [their-backend-path] and the skill should activate."
+**Tell user:** "Try editing a MonoBehaviour script in [their-path] and the skill should activate."
 
 ---
 
 ### Skill-Specific Notes
 
-#### backend-dev-guidelines
-- **Tech Requirements:** Node.js/Express, Prisma, TypeScript, Sentry
-- **Ask:** "Do you use Express with Prisma?" "Where's your backend code?"
-- **If different stack:** Offer to adapt using this as template
-- **Customize:** pathPatterns
-- **Example paths:** `api/`, `server/`, `backend/`, `services/*/src/`
-- **Adaptation tip:** Architecture patterns (Routes→Controllers→Services) transfer to most frameworks
+#### unity-gameplay-patterns
+- **Use for:** MonoBehaviour scripts, gameplay systems, ScriptableObjects
+- **Ask:** "Where do you keep your gameplay C# scripts?"
+- **Customize:** pathPatterns for Scripts directory
+- **Example paths:** `Assets/Scripts/`, `Assets/_Project/Scripts/`, `Assets/Gameplay/`
+- **Triggers on:** MonoBehaviour keywords, `.cs` files with `class.*MonoBehaviour` content
 
-#### frontend-dev-guidelines
-- **Tech Requirements:** React 18+, MUI v7, TanStack Query/Router, TypeScript
-- **Ask:** "Do you use React with MUI v7?" "Where's your frontend code?"
-- **If different stack:** Offer to create adapted version (Vue, Angular, etc.)
-- **Customize:** pathPatterns + all framework-specific examples
-- **Example paths:** `frontend/`, `client/`, `web/`, `apps/web/src/`
-- **Adaptation tip:** File organization and performance patterns transfer, component code doesn't
+#### unity-ui-guidelines
+- **Use for:** UI Toolkit development (UXML, USS, VisualElements)
+- **Ask:** "Where do you keep UI files?"
+- **Customize:** pathPatterns for UI directory + .uxml/.uss files
+- **Example paths:** `Assets/UI/`, `Assets/_Project/UI/`, any `**/*.uxml` or `**/*.uss`
+- **Triggers on:** UI Toolkit keywords, .uxml/.uss files, `using UnityEngine.UIElements`
 
-#### route-tester
-- **Tech Requirements:** JWT cookie-based authentication (framework agnostic)
-- **Ask:** "Do you use JWT cookie-based authentication?"
-- **If NO:** "This skill is designed for JWT cookies. Want me to adapt it for [their auth type] or skip it?"
-- **Customize:** Service URLs, auth patterns
-- **Works with:** Any backend framework using JWT cookies
-
-#### error-tracking
-- **Tech Requirements:** Sentry (works with most backends)
-- **Ask:** "Do you use Sentry?" "Where's your backend code?"
-- **If NO Sentry:** "Want to use this as template for [their error tracking]?"
-- **Customize:** pathPatterns
-- **Adaptation tip:** Error tracking philosophy transfers to other tools (Rollbar, Bugsnag, etc.)
+#### unity-editor-tools
+- **Use for:** Custom Inspectors, Editor Windows, Property Drawers
+- **Ask:** "Where do you keep Editor scripts?"
+- **Customize:** pathPatterns for Editor directories
+- **Example paths:** `Assets/Editor/`, `Assets/**/Editor/`, `Assets/**/*.Editor.cs`
+- **Triggers on:** CustomEditor keywords, Editor directory files, `using UnityEditor`
 
 #### skill-developer
-- **Tech Requirements:** None!
-- **Copy as-is** - meta-skill, fully generic, teaches skill creation for ANY tech stack
-
----
-
-## Adapting Skills for Different Tech Stacks
-
-When user's tech stack differs from skill requirements, you have options:
-
-### Option 1: Adapt Existing Skill (Recommended)
-
-**When to use:** User wants similar guidelines but for different tech
-
-**Process:**
-1. **Copy the skill as a starting point:**
-   ```bash
-   cp -r showcase/.claude/skills/frontend-dev-guidelines \\
-         $CLAUDE_PROJECT_DIR/.claude/skills/vue-dev-guidelines
-   ```
-
-2. **Identify what needs changing:**
-   - Framework-specific code examples (React → Vue)
-   - Library APIs (MUI → Vuetify/PrimeVue)
-   - Import statements
-   - Component patterns
-
-3. **Keep what transfers:**
-   - File organization principles
-   - Performance optimization strategies
-   - TypeScript standards
-   - General best practices
-
-4. **Replace examples systematically:**
-   - Ask user for equivalent patterns in their stack
-   - Update code examples to their framework
-   - Keep the overall structure and sections
-
-5. **Update skill name and triggers:**
-   - Rename skill appropriately
-   - Update skill-rules.json triggers for their stack
-   - Test activation
-
-**Example - Adapting frontend-dev-guidelines for Vue:**
-```
-I'll create vue-dev-guidelines based on the React skill structure:
-- Replace React.FC → Vue defineComponent
-- Replace useSuspenseQuery → Vue composables
-- Replace MUI components → [their component library]
-- Keep: File organization, performance patterns, TypeScript guidelines
-
-This will take a few minutes. Sound good?
-```
-
-### Option 2: Extract Framework-Agnostic Patterns
-
-**When to use:** Stacks are very different, but core principles apply
-
-**Process:**
-1. Read through the existing skill
-2. Identify framework-agnostic patterns:
-   - Layered architecture (backend)
-   - File organization strategies
-   - Performance optimization principles
-   - Testing strategies
-   - Error handling philosophy
-
-3. Create new skill with just those patterns
-4. User can add framework-specific examples later
-
-**Example:**
-```
-The backend-dev-guidelines uses Express, but the layered architecture
-(Routes → Controllers → Services → Repositories) works for Django too.
-
-I can create a skill with:
-- Layered architecture pattern
-- Separation of concerns principles
-- Error handling best practices
-- Testing strategies
-
-Then you can add Django-specific examples as you establish patterns.
-```
-
-### Option 3: Use as Reference Only
-
-**When to use:** Too different to adapt, but user wants inspiration
-
-**Process:**
-1. User browses the existing skill
-2. You help create a new skill from scratch
-3. Use existing skill's structure as a template
-4. Follow modular pattern (main + resource files)
-
-### What Usually Transfers Across Tech Stacks
-
-**Architecture & Organization:**
-- ✅ Layered architecture (Routes/Controllers/Services pattern)
-- ✅ Separation of concerns
-- ✅ File organization strategies (features/ pattern)
-- ✅ Progressive disclosure (main + resource files)
-- ✅ Repository pattern for data access
-
-**Development Practices:**
-- ✅ Error handling philosophy
-- ✅ Input validation importance
-- ✅ Testing strategies
-- ✅ Performance optimization principles
-- ✅ TypeScript best practices
-
-**Framework-Specific Code:**
-- ❌ React hooks → Don't transfer to Vue/Angular
-- ❌ MUI components → Different component libraries
-- ❌ Prisma queries → Different ORM syntax
-- ❌ Express middleware → Different framework patterns
-- ❌ Routing implementations → Framework-specific
-
-### When to Recommend Adaptation vs Skipping
-
-**Recommend adaptation if:**
-- User wants similar guidelines for their stack
-- Core patterns apply (layered architecture, etc.)
-- User has time to help with framework-specific examples
-
-**Recommend skipping if:**
-- Stacks are completely different
-- User doesn't need those patterns
-- Would take too long to adapt
-- User prefers creating from scratch
+- **Use for:** Creating new skills for Unity
+- **Copy as-is** - meta-skill, fully generic, teaches skill creation for Unity
 
 ---
 
@@ -352,23 +221,23 @@ Then you can add Django-specific examples as you establish patterns.
 
 #### skill-activation-prompt (UserPromptSubmit)
 
-**Purpose:** Auto-suggests skills based on user prompts
+**Purpose:** Auto-suggests Unity skills based on user prompts
 
-**Integration (NO customization needed):**
+**Integration (NO customization needed for Unity):**
 
 ```bash
 # Copy both files
-cp showcase/.claude/hooks/skill-activation-prompt.sh \\
+cp unity-toolkit/.claude/hooks/skill-activation-prompt.sh \
    $CLAUDE_PROJECT_DIR/.claude/hooks/
-cp showcase/.claude/hooks/skill-activation-prompt.ts \\
+cp unity-toolkit/.claude/hooks/skill-activation-prompt.ts \
    $CLAUDE_PROJECT_DIR/.claude/hooks/
 
-# Make executable
+# Make executable (Git Bash, WSL, or Unix)
 chmod +x $CLAUDE_PROJECT_DIR/.claude/hooks/skill-activation-prompt.sh
 
 # Install dependencies if needed
-if [ -f "showcase/.claude/hooks/package.json" ]; then
-  cp showcase/.claude/hooks/package.json \\
+if [ -f "unity-toolkit/.claude/hooks/package.json" ]; then
+  cp unity-toolkit/.claude/hooks/package.json \
      $CLAUDE_PROJECT_DIR/.claude/hooks/
   cd $CLAUDE_PROJECT_DIR/.claude/hooks && npm install
 fi
@@ -392,20 +261,22 @@ fi
 }
 ```
 
-**This hook is FULLY GENERIC** - works anywhere, no customization needed!
+**This hook is FULLY GENERIC** - works for Unity projects, no customization needed!
+
+**Windows Note:** Requires Git Bash (comes with Git for Windows), WSL, or Unix environment.
 
 #### post-tool-use-tracker (PostToolUse)
 
-**Purpose:** Tracks file changes for context management
+**Purpose:** Tracks Unity file changes for context management
 
-**Integration (NO customization needed):**
+**Integration (NO customization needed for Unity):**
 
 ```bash
 # Copy file
-cp showcase/.claude/hooks/post-tool-use-tracker.sh \\
+cp unity-toolkit/.claude/hooks/post-tool-use-tracker.sh \
    $CLAUDE_PROJECT_DIR/.claude/hooks/
 
-# Make executable
+# Make executable (Git Bash, WSL, or Unix)
 chmod +x $CLAUDE_PROJECT_DIR/.claude/hooks/post-tool-use-tracker.sh
 ```
 
@@ -428,71 +299,43 @@ chmod +x $CLAUDE_PROJECT_DIR/.claude/hooks/post-tool-use-tracker.sh
 }
 ```
 
-**This hook is FULLY GENERIC** - auto-detects project structure!
+**This hook is FULLY GENERIC** - auto-detects Unity Assets folder structure!
 
 ---
 
-### Optional Hooks (Require Heavy Customization)
+### Stop Hooks (Explicitly Disabled)
 
-#### tsc-check.sh and trigger-build-resolver.sh (Stop hooks)
-
-⚠️ **WARNING:** These hooks are configured for a specific multi-service monorepo structure.
-
-**Before integrating, ask:**
-1. "Do you have a monorepo with multiple TypeScript services?"
-2. "What are your service directory names?"
-3. "Where are your tsconfig.json files located?"
-
-**For SIMPLE projects (single service):**
-- **RECOMMEND SKIPPING** these hooks
-- They're overkill for single-service projects
-- User can run `tsc --noEmit` manually instead
-
-**For COMPLEX projects (multi-service monorepo):**
-
-1. Copy the files
-2. **MUST EDIT** tsc-check.sh - find this section:
-```bash
-case "$repo" in
-    email|exports|form|frontend|projects|uploads|users|utilities|events|database)
-        echo "$repo"
-        return 0
-        ;;
-esac
+**Unity toolkit has Stop hooks disabled:**
+```json
+{
+  "hooks": {
+    "Stop": []  // Explicitly disabled
+  }
+}
 ```
 
-3. Replace with USER'S actual service names:
-```bash
-case "$repo" in
-    api|web|auth|payments|notifications)  # ← User's services
-        echo "$repo"
-        return 0
-        ;;
-esac
-```
+**Reason:**
+- Previous web configuration had TypeScript checks that don't apply to Unity
+- Unity compilation happens in Unity Editor, not via CLI
+- Stop hooks caused errors on Windows systems
 
-4. Test manually before adding to settings.json:
-```bash
-./.claude/hooks/tsc-check.sh
-```
-
-**IMPORTANT:** If this hook fails, it will block Stop events. Only add if you're sure it works for their setup.
+**For Unity projects:** Don't add Stop hooks unless user specifically requests Unity-specific validation.
 
 ---
 
 ## Integrating Agents
 
-**Agents are STANDALONE** - easiest to integrate!
+**Agents are STANDALONE** - easiest to integrate for Unity!
 
 ### Standard Agent Integration
 
 ```bash
 # Copy the agent file
-cp showcase/.claude/agents/[agent-name].md \\
+cp unity-toolkit/.claude/agents/[agent-name].md \
    $CLAUDE_PROJECT_DIR/.claude/agents/
 ```
 
-**That's it!** Agents work immediately, no configuration needed.
+**That's it!** Agents work immediately for Unity projects, no configuration needed.
 
 ### Check for Hardcoded Paths
 
@@ -500,102 +343,82 @@ Some agents may reference paths. **Before copying, read the agent file and check
 
 - `~/git/old-project/` → Should be `$CLAUDE_PROJECT_DIR` or `.`
 - `/root/git/project/` → Should be `$CLAUDE_PROJECT_DIR` or `.`
-- Hardcoded screenshot paths → Ask user where they want screenshots
 
 **If found, update them:**
 ```bash
 sed -i 's|~/git/old-project/|.|g' $CLAUDE_PROJECT_DIR/.claude/agents/[agent].md
-sed -i 's|/root/git/.*PROJECT.*DIR|$CLAUDE_PROJECT_DIR|g' \\
-    $CLAUDE_PROJECT_DIR/.claude/agents/[agent].md
 ```
 
-### Agent-Specific Notes
+### Unity-Specific Agent Uses
 
-**auth-route-tester / auth-route-debugger:**
-- Requires JWT cookie-based authentication in user's project
-- Ask: "Do you use JWT cookies for auth?"
-- If NO: "These agents are for JWT cookie auth. Skip them or want me to adapt?"
+**code-architecture-reviewer:**
+- Reviews Unity code for MonoBehaviour lifecycle issues
+- Checks ScriptableObject usage patterns
+- Identifies Unity anti-patterns (FindObjectOfType in Update, etc.)
 
-**frontend-error-fixer:**
-- May reference screenshot paths
-- Ask: "Where should screenshots be saved?"
+**code-refactor-master:**
+- C# refactoring for Unity scripts
+- Component extraction patterns
+- Assembly Definition organization
 
-**All other agents:**
-- Copy as-is, they're fully generic
+**documentation-architect:**
+- Unity XML documentation standards
+- Package documentation for Unity packages
+- Game system architecture docs
+
+**All agents work as-is** - just copy and use!
 
 ---
 
-## Integrating Slash Commands
+## Common Unity Integration Patterns
 
-```bash
-# Copy command file
-cp showcase/.claude/commands/[command].md \\
-   $CLAUDE_PROJECT_DIR/.claude/commands/
-```
-
-### Customize Paths
-
-Commands may reference dev docs paths. **Check and update:**
-
-**dev-docs and dev-docs-update:**
-- Look for `dev/active/` path references
-- Ask: "Where do you want dev documentation stored?"
-- Update paths in the command files
-
-**route-research-for-testing:**
-- May reference service paths
-- Ask about their API structure
-
----
-
-## Common Patterns & Best Practices
-
-### Pattern: Asking About Project Structure
+### Pattern: Asking About Unity Project Structure
 
 **DON'T assume:**
-- ❌ "I'll add this for your blog-api service"
-- ❌ "Configuring for your frontend directory"
+- ❌ "I'll add this for your Assets/Scripts folder"
+- ❌ "Configuring for your standard Unity layout"
 
 **DO ask:**
-- ✅ "What's your project structure? Monorepo or single app?"
-- ✅ "Where is your backend code located?"
-- ✅ "Do you use workspaces or have multiple services?"
+- ✅ "What's your Unity project folder structure?"
+- ✅ "Where do you keep your gameplay scripts in Assets?"
+- ✅ "Do you use a custom organization like Assets/_Project?"
 
-### Pattern: Customizing skill-rules.json
+### Pattern: Customizing skill-rules.json for Unity
 
-**User has monorepo with workspaces:**
+**Standard Unity structure:**
 ```json
 {
   "pathPatterns": [
-    "packages/*/src/**/*.ts",
-    "apps/*/src/**/*.tsx"
+    "Assets/Scripts/**/*.cs",
+    "Assets/Prefabs/**/*.cs"
   ]
 }
 ```
 
-**User has Nx monorepo:**
+**Custom _Project structure:**
 ```json
 {
   "pathPatterns": [
-    "apps/api/src/**/*.ts",
-    "libs/*/src/**/*.ts"
+    "Assets/_Project/Scripts/**/*.cs",
+    "Assets/_Project/Gameplay/**/*.cs"
   ]
 }
 ```
 
-**User has simple structure:**
+**Modular Unity structure:**
 ```json
 {
   "pathPatterns": [
-    "src/**/*.ts",
-    "backend/**/*.ts"
+    "Assets/Core/**/*.cs",
+    "Assets/Gameplay/**/*.cs",
+    "Assets/Systems/**/*.cs"
   ]
 }
 ```
 
 ### Pattern: settings.json Integration
 
-**NEVER copy the showcase settings.json directly!**
+**NEVER copy the unity-toolkit settings.json directly!**
 
 Instead, **extract and merge** the sections they need:
 
@@ -618,6 +441,17 @@ Instead, **extract and merge** the sections they need:
           }
         ]
       }
+    ],
+    "PostToolUse": [  // ← Add this section
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/post-tool-use-tracker.sh"
+          }
+        ]
+      }
     ]
   }
 }
@@ -630,7 +464,7 @@ Instead, **extract and merge** the sections they need:
 After integration, **verify these items:**
 
 ```bash
-# 1. Hooks are executable
+# 1. Hooks are executable (Git Bash, WSL, Unix)
 ls -la $CLAUDE_PROJECT_DIR/.claude/hooks/*.sh
 # Should show: -rwxr-xr-x
 
@@ -648,86 +482,92 @@ cat $CLAUDE_PROJECT_DIR/.claude/settings.json | jq .
 ```
 
 **Then ask user to test:**
-- "Try editing a file in [relevant-path] - the skill should activate"
-- "Try asking me a question about [topic] - I should suggest the skill"
+- "Try editing a MonoBehaviour script in Assets/Scripts/ - the unity-gameplay-patterns skill should activate"
+- "Try asking me about UI Toolkit - I should suggest the unity-ui-guidelines skill"
 
 ---
 
 ## Common Mistakes to Avoid
 
 ### ❌ DON'T: Copy settings.json as-is
-**Why:** The Stop hooks reference non-existent services
+**Why:** May have incompatible configurations or paths
 **DO:** Extract only UserPromptSubmit and PostToolUse sections
 
-### ❌ DON'T: Keep example service names
-**Why:** User doesn't have blog-api, auth-service, etc.
-**DO:** Ask about their actual structure and update
+### ❌ DON'T: Keep example Unity paths
+**Why:** User's Assets structure may differ
+**DO:** Ask about their actual Unity folder organization and update
 
 ### ❌ DON'T: Skip making hooks executable
 **Why:** Hooks won't run without execute permission
-**DO:** Always `chmod +x` after copying
+**DO:** Always `chmod +x` after copying (on Git Bash/WSL/Unix)
 
-### ❌ DON'T: Assume monorepo structure
-**Why:** Most projects are single-service
-**DO:** Ask first, then customize
+### ❌ DON'T: Assume standard Unity structure
+**Why:** Many Unity projects use custom folder organization
+**DO:** Ask first, then customize pathPatterns
 
 ### ❌ DON'T: Add all skills at once
 **Why:** Overwhelming and may not all be relevant
-**DO:** Ask which skills are relevant to their work
+**DO:** Ask which skills match their Unity work (gameplay, UI, editor tools)
 
-### ❌ DON'T: Copy Stop hooks without testing
-**Why:** They can block the Stop event if they fail
-**DO:** Test manually first, only add if working
+### ❌ DON'T: Forget Windows compatibility
+**Why:** Hooks require Git Bash/WSL on Windows
+**DO:** Mention Git Bash requirement for Windows users
 
 ---
 
 ## Example Integration Conversations
 
-### Example 1: Adding Backend Skill
+### Example 1: Adding Unity Gameplay Skill
 
-**User:** "Add the backend-dev-guidelines skill to my project"
+**User:** "Add the unity-gameplay-patterns skill to my project"
 
 **Claude should respond:**
 ```
-I'll add the backend-dev-guidelines skill. First, I need to understand
-your project structure:
+I'll add the unity-gameplay-patterns skill. First, I need to understand
+your Unity project structure:
 
-1. Is this a monorepo with multiple services, or a single backend application?
-2. Where is your backend code located? (e.g., src/, backend/, server/)
-3. Do you use Express.js?
+1. Where do you keep your gameplay C# scripts? (e.g., Assets/Scripts/, Assets/_Project/Scripts/)
+2. Do you have any custom folder organization in your Assets directory?
+3. Are there any folders I should exclude from skill activation (Editor, Tests, Plugins)?
 ```
 
-**User:** "Single app, code is in src/api/, yes we use Express"
+**User:** "Scripts are in Assets/_Project/Scripts/, exclude Editor and ThirdParty folders"
 
 **Claude should:**
 1. Copy the skill directory
-2. Update skill-rules.json with pathPattern: `"src/api/**/*.ts"`
+2. Update skill-rules.json with:
+   - pathPattern: `"Assets/_Project/Scripts/**/*.cs"`
+   - pathExclusions: `["Assets/**/Editor/**/*.cs", "Assets/ThirdParty/**/*.cs"]`
 3. Verify it's copied correctly
 4. Respond:
 ```
-✅ Added backend-dev-guidelines skill!
+✅ Added unity-gameplay-patterns skill!
 
 Configuration:
-- Skill triggers when editing files in src/api/
-- Activated by keywords like "controller", "service", "route", "API"
+- Skill triggers when editing C# files in Assets/_Project/Scripts/
+- Excludes Editor and ThirdParty folders
+- Activated by keywords like "MonoBehaviour", "ScriptableObject", "coroutine"
 
-Try it: Edit a file in src/api/ and you should see the skill suggestion.
+Try it: Edit a MonoBehaviour script and you should see the skill suggestion.
 ```
 
-### Example 2: Setting Up Hooks
+### Example 2: Setting Up Hooks for Unity
 
 **User:** "Set up the skill activation hooks"
 
 **Claude should respond:**
 ```
-I'll set up the skill auto-activation system. This requires two hooks:
-1. skill-activation-prompt - Suggests skills based on your prompts
-2. post-tool-use-tracker - Tracks file changes
+I'll set up the Unity skill auto-activation system. This requires two hooks:
+1. skill-activation-prompt - Suggests Unity skills based on your prompts
+2. post-tool-use-tracker - Tracks Unity file changes
+
+Important: These hooks require Git Bash (on Windows), WSL, or a Unix environment.
+Do you have Git Bash installed? (It comes with Git for Windows)
 
 Do you have a .claude/settings.json file already, or should I create one?
 ```
 
-**User:** "I have settings.json already"
+**User:** "I have Git Bash and settings.json already"
 
 **Claude should:**
 1. Read their settings.json
@@ -737,92 +577,54 @@ Do you have a .claude/settings.json file already, or should I create one?
 5. Make hooks executable
 6. Respond:
 ```
-✅ Skill activation hooks installed!
+✅ Unity skill activation hooks installed!
 
 What I did:
 - Copied skill-activation-prompt hook
 - Copied post-tool-use-tracker hook
 - Installed dependencies
 - Added to your settings.json
+- Made scripts executable
 
-Test it: Ask me "help with backend development" and I should suggest
-the backend-dev-guidelines skill.
+Test it: Ask me "how do I create a MonoBehaviour?" and I should suggest
+the unity-gameplay-patterns skill automatically.
 ```
 
-### Example 3: Adding Agent
+### Example 3: Adding Unity UI Skill
 
-**User:** "Add the code-architecture-reviewer agent"
+**User:** "Add the UI Toolkit skill"
 
 **Claude should:**
 ```
-The code-architecture-reviewer agent reviews code for architectural issues
-and best practices. This agent works standalone, no configuration needed.
+I'll add the unity-ui-guidelines skill for UI Toolkit development.
 
-I'll copy it to your .claude/agents/ directory now.
+Questions:
+1. Where do you keep your UI files? (e.g., Assets/UI/, Assets/_Project/UI/)
+2. Do you use .uxml and .uss files, or just C# UI scripts?
 ```
 
-**Then:**
-1. Copy the agent file
-2. Respond:
-```
-✅ Added code-architecture-reviewer agent!
-
-Use it by running the Task tool with:
-- subagent_type: "code-architecture-reviewer"
-- prompt: Description of code to review
-
-The agent will review your code and provide architectural feedback.
-```
-
-### Example 3: Tech Stack Mismatch
-
-**User:** "Add the frontend-dev-guidelines skill to my Vue project"
+**User:** "UI is in Assets/UI/, we use both UXML and C# scripts"
 
 **Claude should:**
+1. Copy the skill directory
+2. Update skill-rules.json with:
+   ```json
+   "pathPatterns": [
+     "Assets/UI/**/*.cs",
+     "Assets/**/*.uxml",
+     "Assets/**/*.uss"
+   ]
+   ```
+3. Respond:
 ```
-I see you're using Vue. The frontend-dev-guidelines skill is specifically
-designed for React + MUI v7. I have a few options:
+✅ Added unity-ui-guidelines skill!
 
-Option 1 (Recommended): I can create a vue-dev-guidelines skill using the
-React skill as a template. I'll adapt:
-- Component patterns for Vue (Composition API, defineComponent)
-- Replace MUI examples with your component library
-- Adapt data fetching for Vue patterns
-- Keep: File organization, performance principles, TypeScript standards
+Configuration:
+- Triggers for C# files in Assets/UI/
+- Triggers for .uxml and .uss files anywhere in Assets
+- Activated by keywords like "UI Toolkit", "UXML", "VisualElement"
 
-Option 2: Extract only the framework-agnostic patterns (file organization,
-performance, testing) without React-specific code.
-
-Option 3: Skip it and help you create Vue guidelines from scratch.
-
-Which would you prefer?
-```
-
-**User:** "Option 1 sounds good, I use Vuetify"
-
-**Claude should:**
-1. Copy frontend-dev-guidelines as vue-dev-guidelines
-2. Go through each resource file
-3. Replace React patterns with Vue Composition API
-4. Replace MUI components with Vuetify
-5. Update skill-rules.json with Vue-specific triggers (.vue files)
-6. Respond:
-```
-✅ Created vue-dev-guidelines skill adapted for Vue 3 + Vuetify!
-
-What I changed:
-- React.FC components → Vue defineComponent
-- MUI v7 examples → Vuetify components
-- TanStack Query → Your data fetching approach
-- File patterns → .vue files
-
-What I kept:
-- File organization (features/ pattern)
-- Performance optimization strategies
-- TypeScript standards
-- Loading/error state principles
-
-Try editing a .vue file - the skill should activate.
+Try it: Edit a .uxml file or ask about UI Toolkit and the skill will activate.
 ```
 
 ---
@@ -831,53 +633,77 @@ Try editing a .vue file - the skill should activate.
 
 ### What Needs Customization?
 
-| Component | Tech Requirements | Customization | What to Ask |
-|-----------|------------------|--------------|-------------|
-| **skill-developer** | None | ✅ None | Copy as-is |
-| **backend-dev-guidelines** | Express/Prisma/Node | ⚠️ Paths + tech check | "Use Express/Prisma?" "Where's backend?" |
-| **frontend-dev-guidelines** | React/MUI v7 | ⚠️⚠️ Paths + framework | "Use React/MUI v7?" "Where's frontend?" |
-| **route-tester** | JWT cookies | ⚠️ Auth + paths | "JWT cookie auth?" |
-| **error-tracking** | Sentry | ⚠️ Paths | "Use Sentry?" "Where's backend?" |
+| Component | Customization | What to Ask |
+|-----------|--------------|-------------|
+| **unity-gameplay-patterns** | ⚠️ Paths | "Where are gameplay scripts?" |
+| **unity-ui-guidelines** | ⚠️ Paths | "Where are UI files?" |
+| **unity-editor-tools** | ⚠️ Paths | "Where are Editor scripts?" |
+| **skill-developer** | ✅ None | Copy as-is |
 | **skill-activation-prompt** | ✅ None | Copy as-is |
 | **post-tool-use-tracker** | ✅ None | Copy as-is |
-| **tsc-check** | ⚠️⚠️⚠️ Heavy | "Monorepo or single service?" |
-| **All agents** | ✅ Minimal | Check paths |
-| **All commands** | ⚠️ Paths | "Where for dev docs?" |
+| **All agents** | ✅ Minimal | Check paths only |
 
-### When to Recommend Skipping
+### Unity-Specific Triggers
 
-| Component | Skip If... |
-|-----------|-----------|
-| **tsc-check hooks** | Single-service project or different build setup |
-| **route-tester** | Not using JWT cookie authentication |
-| **frontend-dev-guidelines** | Not using React + MUI |
-| **auth agents** | Not using JWT cookie auth |
+| Skill | Keywords | File Patterns | Content Patterns |
+|-------|----------|---------------|------------------|
+| unity-gameplay-patterns | MonoBehaviour, ScriptableObject, coroutine | Assets/**/*.cs | class.*MonoBehaviour |
+| unity-ui-guidelines | UI Toolkit, UXML, USS, VisualElement | Assets/**/*.uxml, **/*.uss | using UnityEngine.UIElements |
+| unity-editor-tools | CustomEditor, PropertyDrawer, EditorWindow | Assets/**/Editor/**/*.cs | using UnityEditor |
 
 ---
 
 ## Final Tips for Claude
 
 **When user says "add everything":**
-- Start with essentials: skill-activation hooks + 1-2 relevant skills
-- Don't overwhelm them with all 5 skills + 10 agents
-- Ask what they actually need
+- Start with essentials: skill-activation hooks + 1 relevant Unity skill
+- Don't overwhelm them with all 4 skills
+- Ask what they're currently working on (gameplay, UI, editor tools)
 
 **When something doesn't work:**
 - Check verification checklist
-- Verify paths match their structure
-- Test hooks manually
+- Verify paths match their Unity Assets structure
+- Test hooks manually (Git Bash required on Windows)
 - Check for JSON syntax errors
+
+**When user is on Windows:**
+- Confirm they have Git Bash installed
+- Explain hooks require Git Bash, WSL, or Unix
+- Note that Stop hooks are explicitly disabled to prevent CMD errors
 
 **When user is unsure:**
 - Recommend starting with just skill-activation hooks
-- Add backend OR frontend skill (whichever they use)
-- Add more later as needed
+- Add unity-gameplay-patterns skill as first skill
+- Add more later as needed (UI, editor tools)
 
 **Always explain what you're doing:**
 - Show the commands you're running
-- Explain why you're asking questions
+- Explain why you're asking about Unity structure
 - Provide clear next steps after integration
 
 ---
 
-**Remember:** This is a reference library, not a working application. Your job is to help users cherry-pick and adapt components for THEIR specific project structure.
+## Unity 6.3 LTS Compatibility Notes
+
+**This toolkit is designed for:**
+- Unity 6.3 LTS (released 2024)
+- C# 9.0+ language features
+- UI Toolkit as primary UI system (UGUI as legacy reference)
+- Modern Unity Editor with UI Toolkit support
+- Assembly Definitions for project organization
+
+**If user has older Unity version:**
+- Unity 2022 LTS: Skills should work with minor adjustments
+- Unity 2021 or older: May need significant updates (UI Toolkit, C# features)
+- Ask about their Unity version if compatibility is unclear
+
+**Key Unity 6 features in skills:**
+- UI Toolkit patterns (VisualElement, UXML, USS)
+- Modern MonoBehaviour patterns
+- ScriptableObject runtime sets
+- Assembly Definition organization
+- Performance optimization for Unity 6
+
+---
+
+**Remember:** This is a reference library for Unity 6.3 LTS projects. Your job is to help users cherry-pick and adapt components for THEIR specific Unity project structure.
