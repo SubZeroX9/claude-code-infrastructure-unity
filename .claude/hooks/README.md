@@ -1,6 +1,6 @@
 # Hooks
 
-Claude Code hooks that enable skill auto-activation, file tracking, and validation.
+Claude Code hooks that enable skill auto-activation and file tracking for Unity projects.
 
 ---
 
@@ -8,7 +8,7 @@ Claude Code hooks that enable skill auto-activation, file tracking, and validati
 
 Hooks are scripts that run at specific points in Claude's workflow:
 - **UserPromptSubmit**: When user submits a prompt
-- **PreToolUse**: Before a tool executes  
+- **PreToolUse**: Before a tool executes
 - **PostToolUse**: After a tool completes
 - **Stop**: When user requests to stop
 
@@ -20,27 +20,27 @@ Hooks are scripts that run at specific points in Claude's workflow:
 
 ### skill-activation-prompt (UserPromptSubmit)
 
-**Purpose:** Automatically suggests relevant skills based on user prompts and file context
+**Purpose:** Automatically suggests relevant Unity skills based on user prompts and file context
 
 **How it works:**
 1. Reads `skill-rules.json`
-2. Matches user prompt against trigger patterns
-3. Checks which files user is working with
+2. Matches user prompt against Unity trigger patterns
+3. Checks which Unity files user is working with (.cs, .uxml, .uss)
 4. Injects skill suggestions into Claude's context
 
-**Why it's essential:** This is THE hook that makes skills auto-activate.
+**Why it's essential:** This is THE hook that makes Unity skills auto-activate.
 
 **Integration:**
 ```bash
 # Copy both files
-cp skill-activation-prompt.sh your-project/.claude/hooks/
-cp skill-activation-prompt.ts your-project/.claude/hooks/
+cp skill-activation-prompt.sh your-unity-project/.claude/hooks/
+cp skill-activation-prompt.ts your-unity-project/.claude/hooks/
 
-# Make executable
-chmod +x your-project/.claude/hooks/skill-activation-prompt.sh
+# Make executable (Git Bash, WSL, or Unix)
+chmod +x your-unity-project/.claude/hooks/skill-activation-prompt.sh
 
 # Install dependencies
-cd your-project/.claude/hooks
+cd your-unity-project/.claude/hooks
 npm install
 ```
 
@@ -62,29 +62,34 @@ npm install
 }
 ```
 
-**Customization:** ✅ None needed - reads skill-rules.json automatically
+**Customization:** ✅ None needed - reads skill-rules.json automatically for Unity triggers
+
+**Unity-specific triggers:**
+- MonoBehaviour, ScriptableObject, UI Toolkit keywords
+- Assets/**/*.cs file patterns
+- MonoBehaviour, UIDocument content patterns
 
 ---
 
 ### post-tool-use-tracker (PostToolUse)
 
-**Purpose:** Tracks file changes to maintain context across sessions
+**Purpose:** Tracks file changes to maintain context across Unity development sessions
 
 **How it works:**
 1. Monitors Edit/Write/MultiEdit tool calls
-2. Records which files were modified
+2. Records which Unity scripts were modified
 3. Creates cache for context management
-4. Auto-detects project structure (frontend, backend, packages, etc.)
+4. Auto-detects Unity project structure (Assets/Scripts, Assets/UI, Assets/Editor, etc.)
 
-**Why it's essential:** Helps Claude understand what parts of your codebase are active.
+**Why it's essential:** Helps Claude understand what parts of your Unity project are active.
 
 **Integration:**
 ```bash
 # Copy file
-cp post-tool-use-tracker.sh your-project/.claude/hooks/
+cp post-tool-use-tracker.sh your-unity-project/.claude/hooks/
 
-# Make executable
-chmod +x your-project/.claude/hooks/post-tool-use-tracker.sh
+# Make executable (Git Bash, WSL, or Unix)
+chmod +x your-unity-project/.claude/hooks/post-tool-use-tracker.sh
 ```
 
 **Add to settings.json:**
@@ -106,58 +111,55 @@ chmod +x your-project/.claude/hooks/post-tool-use-tracker.sh
 }
 ```
 
-**Customization:** ✅ None needed - auto-detects structure
+**Customization:** ✅ None needed - auto-detects Unity Assets folder structure
 
 ---
 
-## Optional Hooks (Require Customization)
+## Stop Hooks (Explicitly Disabled)
 
-### tsc-check (Stop)
+**Status:** Stop hooks are explicitly disabled in this Unity toolkit.
 
-**Purpose:** TypeScript compilation check when user stops
+**Reason:** The previous web-focused configuration had TypeScript compilation checks (tsc-check.sh) that don't apply to Unity development and caused errors on Windows systems.
 
-**⚠️ WARNING:** Configured for multi-service monorepo structure
+**Current settings.json configuration:**
+```json
+{
+  "hooks": {
+    "Stop": []  // Explicitly disabled
+  }
+}
+```
 
-**Integration:**
+**Windows Compatibility Note:**
+The original Stop hooks used shell variable syntax (`$CLAUDE_PROJECT_DIR`) that doesn't work in Windows CMD. By setting `Stop: []`, we override any global settings that might cause errors.
 
-**First, determine if this is right for you:**
-- ✅ Use if: Multi-service TypeScript monorepo
-- ❌ Skip if: Single-service project or different build setup
+**For Unity Projects:**
+Unity compilation happens in the Unity Editor, not via command-line TypeScript checks. If you want to add Unity-specific Stop hooks later, you could create:
+- Unity compilation check (checking Unity console logs)
+- Unity test runner validation
+- Unity build verification
 
-**If using:**
-1. Copy tsc-check.sh
-2. **EDIT the service detection (line ~28):**
-   ```bash
-   # Replace example services with YOUR services:
-   case "$repo" in
-       api|web|auth|payments|...)  # ← Your actual services
-   ```
-3. Test manually before adding to settings.json
-
-**Customization:** ⚠️⚠️⚠️ Heavy
-
----
-
-### trigger-build-resolver (Stop)
-
-**Purpose:** Auto-launches build-error-resolver agent when compilation fails
-
-**Depends on:** tsc-check hook working correctly
-
-**Customization:** ✅ None (but tsc-check must work first)
+These would need to be custom-built for your Unity workflow.
 
 ---
 
 ## For Claude Code
 
-**When setting up hooks for a user:**
+**When setting up hooks for a Unity project:**
 
 1. **Read [CLAUDE_INTEGRATION_GUIDE.md](../../CLAUDE_INTEGRATION_GUIDE.md)** first
 2. **Always start with the two essential hooks**
-3. **Ask before adding Stop hooks** - they can block if misconfigured  
+3. **Skip Stop hooks** - they're explicitly disabled for Unity
 4. **Verify after setup:**
    ```bash
+   # Git Bash, WSL, or Unix
    ls -la .claude/hooks/*.sh | grep rwx
    ```
+
+**Windows Compatibility:**
+- Hooks require Git Bash, WSL, or Unix environment
+- Native Windows CMD does not support these shell scripts
+- Use Git Bash (comes with Git for Windows) for best compatibility
+- settings.json explicitly disables Stop hooks to prevent CMD errors
 
 **Questions?** See [CLAUDE_INTEGRATION_GUIDE.md](../../CLAUDE_INTEGRATION_GUIDE.md)

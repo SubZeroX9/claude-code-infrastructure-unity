@@ -1,9 +1,7 @@
 {
-  "enableAllProjectMcpServers": true,
+  "enableAllProjectMcpServers": false,
   "enabledMcpjsonServers": [
-    "mysql",
-    "sequential-thinking",
-    "playwright"
+    "sequential-thinking"
   ],
   "permissions": {
     "allow": [
@@ -37,19 +35,7 @@
         ]
       }
     ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/tsc-check.sh"
-          },
-          {
-            "type": "command",
-            "command": "$CLAUDE_PROJECT_DIR/.claude/hooks/trigger-build-resolver.sh"
-          }
-        ]
-      }
-    ]
-  }
+    "Stop": []
+  },
+  "_comment": "Stop hooks explicitly set to empty array to override any global settings. The hooks above require bash (Git Bash, WSL, or Unix). On Windows without bash, you may need to disable hooks or convert them to .bat/.ps1 files."
 }

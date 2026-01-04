@@ -1,24 +1,147 @@
 # Skills
 
-Production-tested skills for Claude Code that auto-activate based on context.
+Production-tested skills for Claude Code that auto-activate for Unity 6.3 LTS development.
 
 ---
 
 ## What Are Skills?
 
 Skills are modular knowledge bases that Claude loads when needed. They provide:
-- Domain-specific guidelines
-- Best practices
-- Code examples
+- Unity-specific guidelines
+- Best practices for Unity 6.3 LTS
+- C# code examples
 - Anti-patterns to avoid
 
 **Problem:** Skills don't activate automatically by default.
 
-**Solution:** This showcase includes the hooks + configuration to make them activate.
+**Solution:** This toolkit includes the hooks + configuration to make them activate for Unity development.
 
 ---
 
 ## Available Skills
+
+### unity-gameplay-patterns
+**Purpose:** Unity gameplay programming patterns for MonoBehaviour, ScriptableObjects, and game systems
+
+**Files:** 8 resource files (453 lines main + resources)
+
+**Covers:**
+- MonoBehaviour lifecycle and best practices
+- Design patterns (Service Locator, Object Pool, State Machine, Command, Observer)
+- ScriptableObjects for data-driven design
+- Component composition and architecture
+- Assembly Definitions and namespaces
+- Coroutines and async/await patterns
+- Event systems (Actions, Events, UnityEvents, ScriptableObject Events)
+- Performance optimization patterns
+- Testing with Unity Test Framework
+
+**Use when:**
+- Creating gameplay systems or mechanics
+- Working with MonoBehaviour scripts
+- Implementing design patterns
+- Building with ScriptableObjects
+- Optimizing game performance
+- Creating component-based architecture
+
+**Customization:** ⚠️ Update `pathPatterns` in skill-rules.json to match your Unity project structure
+
+**Example pathPatterns:**
+```json
+{
+  "pathPatterns": [
+    "Assets/Scripts/**/*.cs",
+    "Assets/_Project/Scripts/**/*.cs",
+    "Assets/Core/**/*.cs",
+    "Assets/Gameplay/**/*.cs"
+  ]
+}
+```
+
+**[View Skill →](unity-gameplay-patterns/)**
+
+---
+
+### unity-ui-guidelines
+**Purpose:** Unity UI development with UI Toolkit (primary) and UGUI reference
+
+**Files:** 8 resource files (586 lines main + resources)
+
+**Covers:**
+- UI Toolkit architecture (UXML, USS, C#)
+- VisualElement hierarchy and styling
+- Data binding and MVVM patterns
+- UI Builder workflow
+- UGUI patterns (legacy reference)
+- Event handling and manipulators
+- UI performance optimization
+- Responsive UI design
+
+**Use when:**
+- Creating UI with UI Toolkit
+- Working with UXML or USS files
+- Building menus, HUDs, or dialogs
+- Styling UI elements
+- Implementing data binding
+- Debugging UI issues
+
+**Customization:** ⚠️ Update `pathPatterns` in skill-rules.json to match your UI directory structure
+
+**Example pathPatterns:**
+```json
+{
+  "pathPatterns": [
+    "Assets/**/UI/**/*.cs",
+    "Assets/**/*.uxml",
+    "Assets/**/*.uss",
+    "Assets/Menus/**/*.cs"
+  ]
+}
+```
+
+**[View Skill →](unity-ui-guidelines/)**
+
+---
+
+### unity-editor-tools
+**Purpose:** Unity Editor extensions, custom inspectors, and tools
+
+**Files:** 8 resource files (138 lines main + resources)
+
+**Covers:**
+- Custom Inspector fundamentals
+- Property Drawers and attributes
+- Editor Windows and dockable windows
+- MenuItem and context menus
+- Gizmos and Handles API
+- ScriptedImporter and AssetPostprocessor
+- UI Toolkit for Editor extensions
+- Build pipeline integration
+
+**Use when:**
+- Creating custom inspectors
+- Building editor tools or windows
+- Extending the asset pipeline
+- Visualizing scene data with Gizmos
+- Customizing import settings
+- Creating menu items or shortcuts
+
+**Customization:** ⚠️ Update `pathPatterns` in skill-rules.json to match your Editor directory structure
+
+**Example pathPatterns:**
+```json
+{
+  "pathPatterns": [
+    "Assets/**/Editor/**/*.cs",
+    "Assets/**/*.Editor.cs",
+    "Editor/**/*.cs"
+  ]
+}
+```
+
+**[View Skill →](unity-editor-tools/)**
+
+---
 
 ### skill-developer (Meta-Skill)
 **Purpose:** Creating and managing Claude Code skills
@@ -26,10 +149,11 @@ Skills are modular knowledge bases that Claude loads when needed. They provide:
 **Files:** 7 resource files (426 lines total)
 
 **Use when:**
-- Creating new skills
+- Creating new skills for your Unity project
 - Understanding skill structure
 - Working with skill-rules.json
 - Debugging skill activation
+- Customizing trigger patterns
 
 **Customization:** ✅ None - copy as-is
 
@@ -37,146 +161,18 @@ Skills are modular knowledge bases that Claude loads when needed. They provide:
 
 ---
 
-### backend-dev-guidelines
-**Purpose:** Node.js/Express/TypeScript development patterns
-
-**Files:** 12 resource files (304 lines main + resources)
-
-**Covers:**
-- Layered architecture (Routes → Controllers → Services → Repositories)
-- BaseController pattern
-- Prisma database access
-- Sentry error tracking
-- Zod validation
-- UnifiedConfig pattern
-- Dependency injection
-- Testing strategies
-
-**Use when:**
-- Creating/modifying API routes
-- Building controllers or services
-- Database operations with Prisma
-- Setting up error tracking
-
-**Customization:** ⚠️ Update `pathPatterns` in skill-rules.json to match your backend directories
-
-**Example pathPatterns:**
-```json
-{
-  "pathPatterns": [
-    "src/api/**/*.ts",       // Single app with src/api
-    "backend/**/*.ts",       // Backend directory
-    "services/*/src/**/*.ts" // Multi-service monorepo
-  ]
-}
-```
-
-**[View Skill →](backend-dev-guidelines/)**
-
----
-
-### frontend-dev-guidelines
-**Purpose:** React/TypeScript/MUI v7 development patterns
-
-**Files:** 11 resource files (398 lines main + resources)
-
-**Covers:**
-- Modern React patterns (Suspense, lazy loading)
-- useSuspenseQuery for data fetching
-- MUI v7 styling (Grid with `size={{}}` prop)
-- TanStack Router
-- File organization (features/ pattern)
-- Performance optimization
-- TypeScript best practices
-
-**Use when:**
-- Creating React components
-- Fetching data with TanStack Query
-- Styling with MUI v7
-- Setting up routing
-
-**Customization:** ⚠️ Update `pathPatterns` + verify you use React/MUI
-
-**Example pathPatterns:**
-```json
-{
-  "pathPatterns": [
-    "src/**/*.tsx",          // Single React app
-    "frontend/src/**/*.tsx", // Frontend directory
-    "apps/web/**/*.tsx"      // Monorepo web app
-  ]
-}
-```
-
-**Note:** This skill is configured as a **guardrail** (enforcement: "block") to prevent MUI v6→v7 incompatibilities.
-
-**[View Skill →](frontend-dev-guidelines/)**
-
----
-
-### route-tester
-**Purpose:** Testing authenticated API routes with JWT cookie auth
-
-**Files:** 1 main file (389 lines)
-
-**Covers:**
-- JWT cookie-based authentication testing
-- test-auth-route.js script patterns
-- cURL with cookie authentication
-- Debugging auth issues
-- Testing POST/PUT/DELETE operations
-
-**Use when:**
-- Testing API endpoints
-- Debugging authentication
-- Validating route functionality
-
-**Customization:** ⚠️ Requires JWT cookie auth setup
-
-**Ask first:** "Do you use JWT cookie-based authentication?"
-- If YES: Copy and customize service URLs
-- If NO: Skip or adapt for your auth method
-
-**[View Skill →](route-tester/)**
-
----
-
-### error-tracking
-**Purpose:** Sentry error tracking and monitoring patterns
-
-**Files:** 1 main file (~250 lines)
-
-**Covers:**
-- Sentry v8 initialization
-- Error capture patterns
-- Breadcrumbs and user context
-- Performance monitoring
-- Integration with Express and React
-
-**Use when:**
-- Setting up error tracking
-- Capturing exceptions
-- Adding error context
-- Debugging production issues
-
-**Customization:** ⚠️ Update `pathPatterns` for your backend
-
-**[View Skill →](error-tracking/)**
-
----
-
-## How to Add a Skill to Your Project
+## How to Add a Skill to Your Unity Project
 
 ### Quick Integration
 
 **For Claude Code:**
 ```
-User: "Add the backend-dev-guidelines skill to my project"
+User: "Add the unity-gameplay-patterns skill to my project"
 
 Claude should:
-1. Ask about project structure
+1. Ask about Unity project structure
 2. Copy skill directory
-3. Update skill-rules.json with their paths
+3. Update skill-rules.json with their Unity paths
 4. Verify integration
 ```
 
@@ -186,26 +182,27 @@ See [CLAUDE_INTEGRATION_GUIDE.md](../../CLAUDE_INTEGRATION_GUIDE.md) for complet
 
 **Step 1: Copy the skill directory**
 ```bash
-cp -r claude-code-infrastructure-showcase/.claude/skills/backend-dev-guidelines \\
-      your-project/.claude/skills/
+cp -r claude-code-infrastructure-unity/.claude/skills/unity-gameplay-patterns \
+      your-unity-project/.claude/skills/
 ```
 
 **Step 2: Update skill-rules.json**
 
 If you don't have one, create it:
 ```bash
-cp claude-code-infrastructure-showcase/.claude/skills/skill-rules.json \\
-   your-project/.claude/skills/
+cp claude-code-infrastructure-unity/.claude/skills/skill-rules.json \
+   your-unity-project/.claude/skills/
 ```
 
-Then customize the `pathPatterns` for your project:
+Then customize the `pathPatterns` for your Unity project structure:
 ```json
 {
   "skills": {
-    "backend-dev-guidelines": {
+    "unity-gameplay-patterns": {
       "fileTriggers": {
         "pathPatterns": [
-          "YOUR_BACKEND_PATH/**/*.ts"  // ← Update this!
+          "Assets/Scripts/**/*.cs",  // ← Update to match your structure!
+          "Assets/_Project/Scripts/**/*.cs"
         ]
       }
     }
@@ -214,7 +211,7 @@ Then customize the `pathPatterns` for your project:
 ```
 
 **Step 3: Test**
-- Edit a file in your backend directory
+- Edit a MonoBehaviour script in your Unity project
 - The skill should activate automatically
 
 ---
@@ -224,26 +221,27 @@ Then customize the `pathPatterns` for your project:
 ### What It Does
 
 Defines when skills should activate based on:
-- **Keywords** in user prompts ("backend", "API", "route")
+- **Keywords** in user prompts ("MonoBehaviour", "ScriptableObject", "UI Toolkit")
 - **Intent patterns** (regex matching user intent)
-- **File path patterns** (editing backend files)
-- **Content patterns** (code contains Prisma queries)
+- **File path patterns** (editing Unity C# scripts)
+- **Content patterns** (code contains `class.*MonoBehaviour`)
 
 ### Configuration Format
 
 ```json
 {
   "skill-name": {
-    "type": "domain" | "guardrail",
-    "enforcement": "suggest" | "block",
-    "priority": "high" | "medium" | "low",
+    "type": "domain",
+    "enforcement": "suggest",
+    "priority": "high",
     "promptTriggers": {
-      "keywords": ["list", "of", "keywords"],
-      "intentPatterns": ["regex patterns"]
+      "keywords": ["MonoBehaviour", "ScriptableObject"],
+      "intentPatterns": ["(create|add|implement).*?(gameplay|system)"]
     },
     "fileTriggers": {
-      "pathPatterns": ["path/to/files/**/*.ts"],
-      "contentPatterns": ["import.*Prisma"]
+      "pathPatterns": ["Assets/Scripts/**/*.cs"],
+      "pathExclusions": ["**/Editor/**/*.cs"],
+      "contentPatterns": ["class.*MonoBehaviour"]
     }
   }
 }
@@ -251,46 +249,35 @@ Defines when skills should activate based on:
 
 ### Enforcement Levels
 
-- **suggest**: Skill appears as suggestion, doesn't block
-- **block**: Must use skill before proceeding (guardrail)
-
-**Use "block" for:**
-- Preventing breaking changes (MUI v6→v7)
-- Critical database operations
-- Security-sensitive code
-
-**Use "suggest" for:**
-- General best practices
-- Domain guidance
-- Code organization
+- **suggest**: Skill appears as suggestion, doesn't block (recommended for Unity skills)
 
 ---
 
-## Creating Your Own Skills
+## Creating Your Own Unity Skills
 
 See the **skill-developer** skill for complete guide on:
 - Skill YAML frontmatter structure
 - Resource file organization
-- Trigger pattern design
+- Trigger pattern design for Unity
 - Testing skill activation
 
-**Quick template:**
+**Quick template for Unity:**
 ```markdown
 ---
-name: my-skill
-description: What this skill does
+name: my-unity-skill
+description: What this Unity skill does
 ---
 
-# My Skill Title
+# My Unity Skill Title
 
 ## Purpose
-[Why this skill exists]
+[Why this Unity skill exists]
 
 ## When to Use This Skill
-[Auto-activation scenarios]
+[Auto-activation scenarios for Unity development]
 
 ## Quick Reference
-[Key patterns and examples]
+[Key Unity patterns and C# examples]
 
 ## Resource Files
 - [topic-1.md](resources/topic-1.md)
@@ -306,7 +293,7 @@ description: What this skill does
 **Check:**
 1. Is skill directory in `.claude/skills/`?
 2. Is skill listed in `skill-rules.json`?
-3. Do `pathPatterns` match your files?
+3. Do `pathPatterns` match your Unity Assets folder structure?
 4. Are hooks installed and working?
 5. Is settings.json configured correctly?
 
@@ -318,10 +305,10 @@ ls -la .claude/skills/
 # Validate skill-rules.json
 cat .claude/skills/skill-rules.json | jq .
 
-# Check hooks are executable
+# Check hooks are executable (Unix/Mac/Git Bash)
 ls -la .claude/hooks/*.sh
 
-# Test hook manually
+# Test hook manually (Git Bash on Windows)
 ./.claude/hooks/skill-activation-prompt.sh
 ```
 
@@ -329,40 +316,50 @@ ls -la .claude/hooks/*.sh
 
 Update skill-rules.json:
 - Make keywords more specific
-- Narrow `pathPatterns`
+- Narrow `pathPatterns` to specific Unity directories
 - Increase specificity of `intentPatterns`
 
 ### Skill never activates
 
 Update skill-rules.json:
-- Add more keywords
-- Broaden `pathPatterns`
-- Add more `intentPatterns`
+- Add more Unity-specific keywords
+- Broaden `pathPatterns` to include more Asset directories
+- Add more `intentPatterns` for Unity tasks
 
 ---
 
 ## For Claude Code
 
-**When integrating a skill for a user:**
+**When integrating a Unity skill for a user:**
 
 1. **Read [CLAUDE_INTEGRATION_GUIDE.md](../../CLAUDE_INTEGRATION_GUIDE.md)** first
-2. Ask about their project structure
-3. Customize `pathPatterns` in skill-rules.json
-4. Verify the skill file has no hardcoded paths
+2. Ask about their Unity project structure
+3. Customize `pathPatterns` in skill-rules.json to match their Assets folder structure
+4. Verify the skill file has no hardcoded Unity project paths
 5. Test activation after integration
 
+**Common Unity project structures:**
+```
+Assets/
+├── Scripts/              # Standard Unity structure
+├── _Project/Scripts/     # Custom Unity structure
+├── Core/                 # Modular structure
+├── Gameplay/
+└── Editor/
+```
+
 **Common mistakes:**
-- Keeping example paths (blog-api/, frontend/)
-- Not asking about monorepo vs single-app
-- Copying skill-rules.json without customization
+- Keeping example paths (Assets/Scripts/)
+- Not asking about their Unity folder organization
+- Copying skill-rules.json without customization for Unity
 
 ---
 
 ## Next Steps
 
-1. **Start simple:** Add one skill that matches your work
-2. **Verify activation:** Edit a relevant file, skill should suggest
-3. **Add more:** Once first skill works, add others
-4. **Customize:** Adjust triggers based on your workflow
+1. **Start simple:** Add unity-gameplay-patterns skill to match your Unity work
+2. **Verify activation:** Edit a MonoBehaviour script, skill should suggest
+3. **Add more:** Once first skill works, add unity-ui-guidelines or unity-editor-tools
+4. **Customize:** Adjust triggers based on your Unity workflow
 
-**Questions?** See [CLAUDE_INTEGRATION_GUIDE.md](../../CLAUDE_INTEGRATION_GUIDE.md) for comprehensive integration instructions.
+**Questions?** See [CLAUDE_INTEGRATION_GUIDE.md](../../CLAUDE_INTEGRATION_GUIDE.md) for comprehensive Unity integration instructions.

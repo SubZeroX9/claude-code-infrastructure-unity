@@ -1,10 +1,21 @@
 {
   "permissions": {
     "allow": [
-      "Bash(for file in /root/git/claude-code-infrastructure-showcase/.claude/skills/frontend-dev-guidelines/resources/*.md)",
-      "Bash(done)"
+      "Edit:*",
+      "Write:*",
+      "MultiEdit:*",
+      "Bash:*",
+      "Bash(git checkout:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh pr view:*)",
+      "Bash(wc:*)"
     ],
     "deny": [],
     "ask": []
-  }
+  },
+  "hooks": {},
+  "_comment": "Local settings override. This file shows example permissions but is not required for the Unity toolkit to function."
 }
